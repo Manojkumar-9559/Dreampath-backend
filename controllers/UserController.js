@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const db = require('../db');
 const admin = require('../FirebaseAdmin');
 const nodemailer = require('nodemailer');
