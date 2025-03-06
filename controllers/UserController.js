@@ -22,7 +22,7 @@ const userRegister = async (req, res) => {
   try {
     // Check if user already exists (async version)
     console.log("Checking for existing user...");
-    const [existingUser] = await db.promise().query('SELECT * FROM users WHERE email = ?', [email]);
+    const [existingUser] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
     
     console.log("Existing User:", existingUser); // Debugging output
     
@@ -43,7 +43,7 @@ const userRegister = async (req, res) => {
     console.log("newUser:",newUser)
 
     // Insert new user into the database (async version)
-    const [result] = await db.promise().query('INSERT INTO users SET ?', newUser);
+    const [result] = await query('INSERT INTO users SET ?', newUser);
 
     res.status(201).json({ message: 'User registered successfully.' });
 
@@ -106,7 +106,7 @@ const sendOtp = async (req, res) => {
 
   try {
     // Check if the user exists
-    const [results] = await db.promise().query('SELECT * FROM users WHERE email = ?', [email]);
+    const [results] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
 
     if (results.length === 0) {
       return res.status(404).json({ message: 'User not found' });
@@ -174,7 +174,7 @@ const resetPassword = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(newPassword, 10); // Hash the new password
 
-    await db.promise().query('UPDATE users SET password_hash = ? WHERE email = ?', [hashedPassword, email]);
+    await db.query('UPDATE users SET password_hash = ? WHERE email = ?', [hashedPassword, email]);
 
     delete verifiedUsers[email]; // Remove verification flag after successful update
 

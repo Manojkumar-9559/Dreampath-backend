@@ -47,14 +47,14 @@ const getEntranceExamsById = async (req, res) => {
 
     try {
         // Fetch entrance exams
-        const [entranceExams] = await db.promise().query(
-            'SELECT * FROM entranceExams WHERE education_level_id = ?', 
+        const [entranceExams] = await db.query(
+            'SELECT * FROM entranceexams WHERE education_level_id = ?', 
             [id]
         );
 
         // Fetch coaching centers
         const [coachingCenters] = await db.query(
-            'SELECT * FROM coachingCenters WHERE education_level_id = ?', 
+            'SELECT * FROM coachingcenters WHERE education_level_id = ?', 
             [id]
         );
 
