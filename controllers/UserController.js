@@ -110,14 +110,14 @@ const sendOtp = async (req, res) => {
 
     // Generate OTP
     const otp = generateOtp();
-    otpStore[email] = { otp, expiresAt: Date.now() + 10 * 60 * 1000 }; // Store OTP for 10 minutes
+    otpStore[email] = { otp, expiresAt: Date.now() + 3 * 60 * 1000 }; // Store OTP for 3 minutes
 
     // Email configuration
     const mailOptions = {
       from: 'basivi.manoj955@gmail.com',
       to: email,
       subject: 'Your OTP Code',
-      text: `Your OTP for verification is: ${otp}. It will expire in 10 minutes.`,
+      text: `Your OTP for verification is: ${otp}. It will expire in 3 minutes.`,
     };
 
     // Send email

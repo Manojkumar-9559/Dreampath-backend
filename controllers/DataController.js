@@ -2,10 +2,11 @@ const db = require("../db");
 
 const data = async (req, res) => {
     try {
+
       const [levels] = await db.query('SELECT * FROM education_levels ORDER BY id');
       const [categories] = await db.query('SELECT * FROM categories ORDER BY id');
       const [courses] = await db.query('SELECT * FROM courses ORDER BY id');
-  
+  console.log(categories);
       res.status(200).json({
         message: 'Data retrieved successfully!',
         levels,
