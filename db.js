@@ -16,7 +16,7 @@ db.getConnection((err, connection) => {
     console.error('Error connecting to the database:', err.stack);
     return;
   }
-  console.log('Connected to the claver cloud database');
+  console.log('Connected to the clver cloud database');
   connection.release(); // Release the connection after checking
 });
 // Export the db pool to be used elsewhere

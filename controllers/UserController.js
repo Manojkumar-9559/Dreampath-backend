@@ -56,7 +56,7 @@ const userRegister = async (req, res) => {
 // Login Controller
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
-  console.log("req.body:",req.body)
+  console.log("req.body:", req.body);
 
   // Validate input
   if (!email || !password) {
@@ -64,32 +64,28 @@ const userLogin = async (req, res) => {
   }
 
   try {
-    // Check if user exists in the database
-    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-      if (err) {
-        console.error('Error checking user existence:', err.stack);
-        return res.status(500).json({ message: 'Server error.' });
-      }
+    // Execute the query correctly using await
+    const [results] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
 
-      if (results.length === 0) {
-        // If no user is found with this email
-        return res.status(400).json({ message: 'Invalid credentials.' });
-      }
+    if (results.length === 0) {
+      // If no user is found with this email
+      return res.status(400).json({ message: 'Invalid credentials.' });
+    }
 
-      // Get the user from the results
-      const user = results[0];
+    // Get the user from the results
+    const user = results[0];
 
-      // Compare the provided password with the stored hashed password
-      const isMatch = await bcrypt.compare(password, user.password_hash);
+    // Compare the provided password with the stored hashed password
+    const isMatch = await bcrypt.compare(password, user.password_hash);
 
-      if (!isMatch) {
-        // If passwords do not match
-        return res.status(400).json({ message: 'Invalid credentials.' });
-      }
+    if (!isMatch) {
+      // If passwords do not match
+      return res.status(400).json({ message: 'Invalid credentials.' });
+    }
 
-      // If login is successful
-      return res.status(200).json({ message: 'Login successful!', userId: user.id });
-    });
+    // If login is successful
+    return res.status(200).json({ message: 'Login successful!', userId: user.id });
+
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ message: 'Server error.' });
