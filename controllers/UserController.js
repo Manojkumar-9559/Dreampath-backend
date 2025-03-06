@@ -43,7 +43,7 @@ const userRegister = async (req, res) => {
     console.log("newUser:",newUser)
 
     // Insert new user into the database (async version)
-    const [result] = await query('INSERT INTO users SET ?', newUser);
+    const [result] = await db.query('INSERT INTO users SET ?', newUser);
 
     res.status(201).json({ message: 'User registered successfully.' });
 
@@ -65,7 +65,7 @@ const userLogin = async (req, res) => {
 
   try {
     // Check if user exists in the database
-    db.execute('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
       if (err) {
         console.error('Error checking user existence:', err.stack);
         return res.status(500).json({ message: 'Server error.' });
