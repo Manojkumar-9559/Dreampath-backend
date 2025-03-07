@@ -79,7 +79,8 @@ const getEntranceExamsById = async (req, res) => {
 
 const getDetailsForJob=async(req,res)=>{
     try {
-        const[educationLevels]=await db.query('select education_level from job_guide');
+        const[educationLevels]=await db.query('select DISTINCT education_level from job_guide');
+        educationLevels.filter(item=>item)
         if(educationLevels.length===0){
             return res.status(404).json({message:"Data not found!"});
         }
