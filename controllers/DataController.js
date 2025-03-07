@@ -93,22 +93,32 @@ const getDetailsForJob=async(req,res)=>{
     }
    
 }
-const getDataById=async(req,res)=>{
+const getDataById = async (req, res) => {
+    const { level } = req.params; // Get education level from route params
+    console.log("Requested Education Level:", level);
+    
     try {
-        const[educationLevels]=await db.query('select * from job_guide');
-        console.log("educationLevels:",educationLevels);        
-        if(educationLevels.length===0){
-            return res.status(404).json({message:"Data not found!"});
+        // Use parameterized query to prevent SQL injection
+        const [educationData] = await db.query('SELECT * FROM job_guide WHERE education_level = ?', [level]);
+        const [resources]= await db.query('select * from career_guidance_resources')
+        console.log("Filtered Data:", educationData); // Debugging
+        
+        if (educationData.length === 0) {
+            return res.status(404).json({ message: "No data found for this education level!" });
         }
-        res.status(200).json({message:"Data get Successfully",educationLevels})
+
+        res.status(200).json({
+            message: "Data retrieved successfully",
+            educationData,
+            resources
+        });
     
     } catch (error) {
-     console.log('error:',error)  
-     res.status(500).json({error:"Internal server error"})
-    
+        console.error("Error fetching data:", error);
+        res.status(500).json({ error: "Internal server error" });
     }
-   
-}
+};
+
 
 
 module.exports = { data,getCollegesByLevelId,getEntranceExamsById,getDetailsForJob,getDataById };
