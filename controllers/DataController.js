@@ -79,12 +79,13 @@ const getEntranceExamsById = async (req, res) => {
 
 const getDetailsForJob=async(req,res)=>{
     try {
-        const[educationLevels]=await db.query('select DISTINCT education_level from job_guide');
-        educationLevels.filter(item=>item)
-        if(educationLevels.length===0){
+        const[educationLevels]=await db.query('select DISTINCT education_level from job_guide');     
+        const [resources]= await db.query('select * from career_guidance_resources')  
+        console.log('resources:',resources)
+        if(educationLevels.length===0||resources.length===0){
             return res.status(404).json({message:"Data not found!"});
         }
-        res.status(200).json({message:"Data get Successfully",educationLevels})
+        res.status(200).json({message:"Data get Successfully",educationLevels,resources})
     
     } catch (error) {
      console.log('error:',error)  
@@ -100,17 +101,17 @@ const getDataById = async (req, res) => {
     try {
         // Use parameterized query to prevent SQL injection
         const [educationData] = await db.query('SELECT * FROM job_guide WHERE education_level = ?', [level]);
-        const [resources]= await db.query('select * from career_guidance_resources')
-        console.log("Filtered Data:", educationData); // Debugging
         
+        console.log("Filtered Data:", educationData); // Debugging
+       
         if (educationData.length === 0) {
             return res.status(404).json({ message: "No data found for this education level!" });
         }
 
         res.status(200).json({
             message: "Data retrieved successfully",
-            educationData,
-            resources
+            educationData
+            
         });
     
     } catch (error) {
