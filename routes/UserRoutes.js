@@ -13,6 +13,6 @@ router.get('/data',dataController.data);
 router.get('/colleges/:id',dataController.getCollegesByLevelId)
 router.get('/getEntranceExams/:id',dataController.getEntranceExamsById)
 router.get('/getDataForJob',dataController.getDetailsForJob)
-
+router.get('/getDataBylevel/:level',dataController.getDataById)
 // Correctly export the router instance
 module.exports = router; // Ensure this is router, not an object

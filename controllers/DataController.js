@@ -93,6 +93,22 @@ const getDetailsForJob=async(req,res)=>{
     }
    
 }
+const getDataById=async(req,res)=>{
+    try {
+        const[educationLevels]=await db.query('select * from job_guide');
+        console.log("educationLevels:",educationLevels);        
+        if(educationLevels.length===0){
+            return res.status(404).json({message:"Data not found!"});
+        }
+        res.status(200).json({message:"Data get Successfully",educationLevels})
+    
+    } catch (error) {
+     console.log('error:',error)  
+     res.status(500).json({error:"Internal server error"})
+    
+    }
+   
+}
 
 
-module.exports = { data,getCollegesByLevelId,getEntranceExamsById,getDetailsForJob };
+module.exports = { data,getCollegesByLevelId,getEntranceExamsById,getDetailsForJob,getDataById };
