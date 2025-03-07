@@ -12,6 +12,7 @@ router.post('/reset-password',userController.resetPassword)
 router.get('/data',dataController.data);
 router.get('/colleges/:id',dataController.getCollegesByLevelId)
 router.get('/getEntranceExams/:id',dataController.getEntranceExamsById)
+router.get('/getDataForJob',dataController.getDetailsForJob)
 
 // Correctly export the router instance
 module.exports = router; // Ensure this is router, not an object
